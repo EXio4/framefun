@@ -88,15 +88,23 @@ public:
 class DoubleBuffering : public Drawer {
 private:
     std::shared_ptr<uint8_t> local_buffer;
+    uint8_t* backend_buffer;
     std::shared_ptr<RawFB> backend;
     int ww;
     int wh;
+    uint32_t bpp;
+    uint32_t lineLen;
+    uint32_t bufferSize;
 public:
     DoubleBuffering(std::shared_ptr<RawFB> backend) : backend(backend) {
         ww = backend->screenWidth();
         wh = backend->screenHeight();
-        local_buffer = std::shared_ptr<uint8_t>(new uint8_t[backend->getBufferSize()]);
-        memcpy((void*)local_buffer.get(), (void*)backend->getRaw(), backend->getBufferSize());
+        bpp = backend->getBpp();
+        lineLen = backend->getLineLen();
+        bufferSize = backend->getBufferSize();
+        backend_buffer = backend->getRaw();
+        local_buffer = std::shared_ptr<uint8_t>(new uint8_t[bufferSize]);
+        memcpy((void*)local_buffer.get(), backend_buffer, bufferSize);
     }
     int screenWidth() { return ww; }
     int screenHeight() { return wh; }
@@ -104,10 +112,10 @@ public:
     void putPixel(int X, int Y, Color col, double mix = 1);
     Color getPixel(int X, int Y);
     void refreshScreen() {
-        memcpy((void*)backend->getRaw(), (void*)local_buffer.get(), backend->getBufferSize());
+        memcpy(backend_buffer, (void*)local_buffer.get(), bufferSize);
     }
     void clear() {
-        memset(local_buffer.get(), 0, backend->getBufferSize());
+        memset(local_buffer.get(), 0, bufferSize);
     }
 };
 
@@ -154,8 +162,6 @@ Color RawFB::getPixel(int X, int Y) {
 }
 
 
-// this is far from efficient, caching bpp/linelen is going to be much faster
-
 void DoubleBuffering::putPixel(int X, int Y, Color newColor, double mix)  {
     if (X < 0 || Y < 0 || X >= ww || Y >= wh) return;
     Color oldColor = getPixel(X,Y);
@@ -163,8 +169,8 @@ void DoubleBuffering::putPixel(int X, int Y, Color newColor, double mix)  {
                              oldColor.g * (1-mix) + newColor.g * mix,
                              oldColor.b * (1-mix) + newColor.b * mix);
     uint32_t col = finalPixel.toCode();
-    *((uint32_t*)(local_buffer.get()+(X*backend->getBpp()+Y*backend->getLineLen())))=col;
+    *((uint32_t*)(local_buffer.get()+(X*bpp+Y*lineLen)))=col;
 }
 Color DoubleBuffering::getPixel(int X, int Y) {
-    return Color(*((uint32_t*)(local_buffer.get()+(X*backend->getBpp()+Y*backend->getLineLen()))));
+    return Color(*((uint32_t*)(local_buffer.get()+(X*bpp+Y*lineLen))));
 }
