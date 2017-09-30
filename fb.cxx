@@ -28,6 +28,12 @@ public:
     uint32_t toCode() {
         return (r<<16) + (g<<8) + b;
     }
+
+    Color blend(Color other, double mix) {
+        return Color(r * (1-mix) + other.r * mix,
+                     g * (1-mix) + other.g * mix,
+                     b * (1-mix) + other.b * mix);
+    }
 };
 
 class Drawer {
@@ -150,11 +156,7 @@ int main(int argc, char ** argv){
 
 void RawFB::putPixel(int X, int Y, Color newColor, double mix)  {
     if (X < 0 || Y < 0 || X >= ww || Y >= wh) return;
-    Color oldColor = getPixel(X,Y);
-    Color finalPixel = Color(oldColor.r * (1-mix) + newColor.r * mix,
-                             oldColor.g * (1-mix) + newColor.g * mix,
-                             oldColor.b * (1-mix) + newColor.b * mix);
-    uint32_t col = finalPixel.toCode();
+    uint32_t col = getPixel(X,Y).blend(newColor, mix).toCode();
     *((uint32_t*)(fbp+(X*bpp+Y*lineLen)))=col;
 }
 Color RawFB::getPixel(int X, int Y) {
@@ -164,11 +166,7 @@ Color RawFB::getPixel(int X, int Y) {
 
 void DoubleBuffering::putPixel(int X, int Y, Color newColor, double mix)  {
     if (X < 0 || Y < 0 || X >= ww || Y >= wh) return;
-    Color oldColor = getPixel(X,Y);
-    Color finalPixel = Color(oldColor.r * (1-mix) + newColor.r * mix,
-                             oldColor.g * (1-mix) + newColor.g * mix,
-                             oldColor.b * (1-mix) + newColor.b * mix);
-    uint32_t col = finalPixel.toCode();
+    uint32_t col = getPixel(X,Y).blend(newColor, mix).toCode();
     *((uint32_t*)(local_buffer.get()+(X*bpp+Y*lineLen)))=col;
 }
 Color DoubleBuffering::getPixel(int X, int Y) {
