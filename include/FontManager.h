@@ -12,6 +12,6 @@ private:
     bool check_bit(int c, int x, int y);
 public:
     FontManager(Drawer& backend);
-    void write(int x, int y, char c, int scale = 1, Color col = Color(255,255,255), double blend = 1);
-    void write(int x, int y, const std::string& string, int scale = 1, int sep = 4, Color col = Color(255,255,255), double blend = 1);
+    void write(Pos pos, char c, int scale = 1, Color col = Color(255,255,255), double blend = 1);
+    void write(Pos pos, const std::string& string, int scale = 1, int sep = 4, Color col = Color(255,255,255), double blend = 1);
 };

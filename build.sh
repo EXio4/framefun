@@ -4,7 +4,7 @@ mkdir -p build/
 
 mkdir -p font/
 
-if [[ $1 != "ignore_fonts" ]]; then
+if [[ "$1" != "ignore_fonts" ]]; then
 
     rm -f font/font.h
     for f in {a..z} {A..Z} {0..9}; do

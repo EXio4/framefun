@@ -3,8 +3,6 @@
 
 
 FontManager::FontManager(Drawer& backend) : backend(backend) {
-    for (int i=0; i < 256; i++) {
-    }
     #include "font.h"
 }
 bool FontManager::check_bit(int c, int x, int y) {
@@ -17,7 +15,7 @@ bool FontManager::check_bit(int c, int x, int y) {
         return bits[c][y * 2 + 1] & (1 << (x - 8));
     }
 }
-void FontManager::write(int x, int y, char c, int scale, Color col, double blend) {
+void FontManager::write(Pos pos, char c, int scale, Color col, double blend) {
     if (bits[c].size() == 0) return;
 
     for (int ox = 0; ox < 16; ox++) {
@@ -32,7 +30,7 @@ void FontManager::write(int x, int y, char c, int scale, Color col, double blend
 
                 for (int i = 0; i < scale; i++) {
                     for (int j = 0; j < scale; j++) {
-                        backend.putPixel(x + ox * scale + i, y + oy * scale + j, col, (count < 5 ? 0.5 : 1) * blend);
+                        backend.putPixel(Pos(pos.x + ox * scale + i, pos.y + oy * scale + j), col, (count < 5 ? 0.5 : 1) * blend);
                     }
                 }
             }
@@ -40,8 +38,8 @@ void FontManager::write(int x, int y, char c, int scale, Color col, double blend
     }
 }
 
-void FontManager::write(int x, int y, const std::string& string, int scale, int sep, Color col, double blend) {
+void FontManager::write(Pos pos, const std::string& string, int scale, int sep, Color col, double blend) {
     for (int i = 0; i < string.size(); i++) {
-        write(x + i * (16 * scale + sep), y, string[i], scale, col, blend);
+        write(Pos(pos.x + i * (16 * scale + sep), pos.y), string[i], scale, col, blend);
     }
 }

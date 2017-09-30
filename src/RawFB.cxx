@@ -45,11 +45,12 @@ uint32_t RawFB::getBpp() { return bpp; }
 uint32_t RawFB::getLineLen() { return lineLen; }
 uint32_t RawFB::getBufferSize() { return bufferSize; }
 
-void RawFB::putPixel(int X, int Y, Color newColor, double mix)  {
-    if (X < 0 || Y < 0 || X >= ww || Y >= wh) return;
-    uint32_t col = getPixel(X,Y).blend(newColor, mix).toCode();
-    *((uint32_t*)(fbp+(X*bpp+Y*lineLen)))=col;
+void RawFB::putPixel(Pos pos, Color newColor, double mix)  {
+    if (pos.x < 0 || pos.y < 0 || pos.x >= ww || pos.y >= wh) return;
+    uint32_t col = getPixel(pos).blend(newColor, mix).toCode();
+    *((uint32_t*)(fbp+(pos.x*bpp+pos.y*lineLen)))=col;
 }
-Color RawFB::getPixel(int X, int Y) {
-    return Color(*((uint32_t*)(fbp+(X*bpp+Y*lineLen))));
+Color RawFB::getPixel(Pos pos) {
+    if (pos.x < 0 || pos.y < 0 || pos.x >= ww || pos.y >= wh) return Color(0,0,0);
+    return Color(*((uint32_t*)(fbp+(pos.x*bpp+pos.y*lineLen))));
 }

@@ -19,8 +19,8 @@ public:
     int screenWidth();
     int screenHeight();
 
-    void putPixel(int X, int Y, Color col, double mix = 1);
-    Color getPixel(int X, int Y);
+    void putPixel(Pos pos, Color col, double mix = 1);
+    Color getPixel(Pos pos);
     void refreshScreen();
     void clear();
 };

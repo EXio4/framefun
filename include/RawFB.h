@@ -14,8 +14,8 @@ private:
     uint32_t bufferSize;
 public:
     RawFB(const std::string& fb_file);
-    void putPixel(int X, int Y, Color newColor, double mix = 1);
-    Color getPixel(int X, int Y);
+    void putPixel(Pos pos, Color newColor, double mix = 1);
+    Color getPixel(Pos pos);
 
     int screenWidth();
     int screenHeight();

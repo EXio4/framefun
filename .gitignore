@@ -33,3 +33,6 @@
 
 build/*
 font.h
+
+*.swp
+*.kate-swp
