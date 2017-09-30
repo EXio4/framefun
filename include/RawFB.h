@@ -1,0 +1,29 @@
+#pragma once
+#include "Drawer.h"
+#include <string>
+
+
+class RawFB : public Drawer {
+private:
+    uint8_t *fbp;
+
+    uint16_t ww;
+    uint16_t wh;
+
+    uint32_t bpp, lineLen;
+    uint32_t bufferSize;
+public:
+    RawFB(const std::string& fb_file);
+    void putPixel(int X, int Y, Color newColor, double mix = 1);
+    Color getPixel(int X, int Y);
+
+    int screenWidth();
+    int screenHeight();
+
+    /* awful shit because OOP is sooo good */
+    void putRaw(uint8_t* buffer);
+    uint8_t* getRaw();
+    uint32_t getBpp();
+    uint32_t getLineLen();
+    uint32_t getBufferSize();
+};
