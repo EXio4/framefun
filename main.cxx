@@ -27,7 +27,7 @@ int main(int argc, char ** argv){
             }
         }
 
-        fonts.write(64,64, "Hello world!");
+        fonts.write(64,64, "Hello world!", 4);
 
 
         fb.refreshScreen();

@@ -9,6 +9,7 @@ class FontManager {
 private:
     Drawer& backend;
     std::vector<uint8_t> bits[255];
+    bool check_bit(int c, int x, int y);
 public:
     FontManager(Drawer& backend);
     void write(int x, int y, char c, int scale = 1, Color col = Color(255,255,255), double blend = 1);
