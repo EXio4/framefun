@@ -2,11 +2,13 @@
 #include "Drawer.h"
 #include "RawFB.h"
 #include "DoubleBuffering.h"
+#include "FontManager.h"
 
 int main(int argc, char ** argv){
 
     DoubleBuffering fb(std::shared_ptr<RawFB>(new RawFB("/dev/fb0")));
-
+    FontManager fonts(fb);
+    
     bool up = true;
     int c = -16;
     while (1) {
@@ -24,6 +26,9 @@ int main(int argc, char ** argv){
                 fb.putPixel(x,fb.screenHeight()/2 + y, Color(255,127,255),(RANGE-abs(y))/RANGE);
             }
         }
+
+        fonts.write(64,64, "Hello world!");
+
 
         fb.refreshScreen();
     }
