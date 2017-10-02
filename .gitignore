@@ -36,3 +36,4 @@ font.h
 
 *.swp
 *.kate-swp
+build.run
