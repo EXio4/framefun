@@ -8,6 +8,7 @@
 #include <stropts.h>
 #include <sys/mman.h>
 #include "RawFB.h"
+#include "Exceptions.h"
 #include <cstring>
 
 RawFB::RawFB(const std::string& fb_file) {
@@ -16,15 +17,27 @@ RawFB::RawFB(const std::string& fb_file) {
 
     /* inits */
     int fb_fd = open(fb_file.c_str(), O_RDWR);
-    ioctl(fb_fd, FBIOGET_VSCREENINFO, &vinfo);
-    ioctl(fb_fd, FBIOGET_FSCREENINFO, &finfo);
+    if (fb_fd < 0) {
+        throw new FramebufferException();
+    }
+    if (ioctl(fb_fd, FBIOGET_VSCREENINFO, &vinfo) < 0) {
+        throw new FramebufferException();
+    }
+    if (ioctl(fb_fd, FBIOGET_FSCREENINFO, &finfo) < 0) {
+        throw new FramebufferException();
+    }
     vinfo.xoffset = 0;
     vinfo.yoffset = 0;
-    ioctl (fb_fd, FBIOPAN_DISPLAY, &vinfo);
+    if (ioctl (fb_fd, FBIOPAN_DISPLAY, &vinfo) < 0) {
+        throw new FramebufferException();
+    }
     bufferSize = vinfo.yres_virtual * finfo.line_length;
     fbp = (uint8_t*)mmap(0, bufferSize,
                        PROT_READ | PROT_WRITE,
                        MAP_SHARED, fb_fd, (off_t)0);
+    if (fbp == (uint8_t*)-1) {
+        throw new FramebufferException();
+    }
     lineLen = finfo.line_length;
     bpp     = vinfo.bits_per_pixel/8;
     ww      = (uint16_t) vinfo.xres;

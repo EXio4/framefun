@@ -159,7 +159,7 @@ public:
             args.insert(args.end(), sources.begin(), sources.end());
             args.insert(args.end(), optimization.begin(), optimization.end());
             args.insert(args.end(), static_bin.begin(), static_bin.end());
-            SH::exec(args, "");
+            std::cout << SH::exec(args, "") << std::endl;
         } catch (std::runtime_error& err) {
             return false;
         }
@@ -180,6 +180,13 @@ public:
         add('0', '9');
         add('A', 'Z');
         add('a', 'z');
+        chars.push_back('@');
+        chars.push_back('>');
+        chars.push_back('<');
+        chars.push_back('$');
+        chars.push_back('"');
+        chars.push_back('\'');
+        chars.push_back('~');
     }
     std::string getName() { return "fonts"; }
     std::vector<std::string> dependencies() {
@@ -191,9 +198,10 @@ public:
         std::ofstream f("font/font.h");
         for (auto c : chars) {
             std::string s(1, c);
-            std::string xbm = SH::exec({"convert","-font","./letvezi.ttf","-resize","16x32!", "-pointsize","14","label:"+s, "xbm:-"}, "");
-            std::string tail = SH::exec({"tail", "--lines=7"}, xbm);
-            std::string sed = SH::exec({"sed","s/^static char \\(.*\\)_bits\\[\\]/bits['" + s +"']/"}, tail);
+            std::string xbm = SH::exec({"convert","-font","./dejavu.ttf","-resize","8x16!", "-pointsize","14","label:"+s, "xbm:-"}, "");
+            std::string tail = SH::exec({"tail", "--lines=3"}, xbm);
+            if (s == "'") s = "\\\\'"; // hacky hack
+            std::string sed = SH::exec({"sed","s|^static char \\(.*\\)_bits\\[\\]|bits['" + s +"']|"}, tail);
             f << sed << std::endl;
             
         }
@@ -307,7 +315,8 @@ int main(int argc, char** argv) {
         "src/FontManager.cxx",
         "src/Pos.cxx",
         "src/RawFB.cxx",
-        "src/Toolkit.cxx"
+        "src/Toolkit.cxx",
+        "src/Exceptions.cxx"
     };
     
     man.add(std::shared_ptr<Task>(new TaskFonts()));

@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 
+#define FONT_HEIGHT 16
+#define FONT_WIDTH 8
 
 class FontManager {
 private:

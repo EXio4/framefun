@@ -1,16 +1,20 @@
+#include <iostream>
 #include "Color.h"
 #include "Drawer.h"
 #include "RawFB.h"
 #include "DoubleBuffering.h"
 #include "FontManager.h"
 #include "Toolkit.h"
+#include "TextScreen.h"
 
 int main(int argc, char ** argv){
 
-    DoubleBuffering fb(std::shared_ptr<RawFB>(new RawFB("/dev/fb0")));
+    std::shared_ptr<RawFB> rawfb = std::shared_ptr<RawFB>(new RawFB("/dev/fb0"));
+    DoubleBuffering fb(rawfb);
     FontManager fonts(fb);
     Toolkit tk(fb);
-
+    TextScreen tm(fb, 80);
+/*
     bool up = true;
     int c = -16;
     while (1) {
@@ -37,6 +41,27 @@ int main(int argc, char ** argv){
 
         fb.refreshScreen();
     }
-
+*/
+    int i = 0;
+    int acc = 0;
+    
+    tm.setInputPrompt("exio4@localhost:~$");
+    while (1) {
+        
+        fb.clear();
+        
+        
+        if (i == 0) {
+            acc++;
+            tm.addLine("Hello, from line " + std::to_string(acc));
+        }
+        
+        i = (i + 1) % 15;
+        
+        tm.render();
+        
+        fb.refreshScreen();
+        
+    }
     return 0;
 }
