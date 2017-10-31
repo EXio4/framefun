@@ -16,13 +16,13 @@ void TextScreen::setInputPrompt(std::string prompt) {
     this->prompt = prompt;
 }
 
-void TextScreen::addInput(uint16_t c) {
-    if (c == -1) {
+void TextScreen::addInput(char c) {
+    if (c == 127) {
         if (input_line.size() > 0) {
             input_line.pop_back();
         }
     } else {
-        input_line.push_back((char)(uint8_t)c);
+        input_line.push_back(c);
     }
 }
 
@@ -67,5 +67,20 @@ void TextScreen::render() {
             x += factor_width;
         }
     }
-    
+
+}
+
+void TextScreen::clear() {
+    buffers.clear();
+
+}
+
+std::string TextScreen::getInput(bool clear) {
+    if (clear) {
+        std::string ref = input_line;
+        input_line.clear();
+        return ref;
+    } else {
+        return input_line;
+    }
 }

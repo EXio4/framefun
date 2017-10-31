@@ -10,7 +10,7 @@
 class FontManager {
 private:
     Drawer& backend;
-    std::vector<uint8_t> bits[255];
+    std::vector<uint8_t> bits[1024];
     bool check_bit(int c, int x, int y);
 public:
     FontManager(Drawer& backend);

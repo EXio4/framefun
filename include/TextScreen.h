@@ -18,6 +18,8 @@ public:
     void setInputPrompt(std::string prompt);
     // -1 (equiv) is "backspace", other chars are passthru (will end up as spaces when shown
     // -x (equiv) need to represent left/right etc
-    void addInput(uint16_t c);
+    void addInput(char c);
+    std::string getInput(bool clear = true);
     void render();
+    void clear();
 };

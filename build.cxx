@@ -155,7 +155,7 @@ public:
     bool task() {
         try {
             SH::mkdir("build/");
-            std::vector<std::string> args = {"g++","-std=c++11","-lm","-o","build/" + binary,"-Iinclude/","-Ifont/"};
+            std::vector<std::string> args = {"g++","-std=c++14","-lm","-o","build/" + binary,"-Iinclude/","-Ifont/","-lpthread"};
             args.insert(args.end(), sources.begin(), sources.end());
             args.insert(args.end(), optimization.begin(), optimization.end());
             args.insert(args.end(), static_bin.begin(), static_bin.end());
@@ -316,7 +316,9 @@ int main(int argc, char** argv) {
         "src/Pos.cxx",
         "src/RawFB.cxx",
         "src/Toolkit.cxx",
-        "src/Exceptions.cxx"
+        "src/Exceptions.cxx",
+        "src/TextScreen.cxx",
+        "src/UIEvents.cxx"
     };
     
     man.add(std::shared_ptr<Task>(new TaskFonts()));
