@@ -1,6 +1,8 @@
 #pragma once
 #include <cstdint>
 
+namespace Internal {
+
 class Color {
 public:
     int r;
@@ -11,3 +13,5 @@ public:
     uint32_t toCode();
     Color blend(Color other, double mix);
 };
+
+}

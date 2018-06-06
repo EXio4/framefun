@@ -5,6 +5,9 @@
 #include <vector>
 #include <string>
 
+
+namespace Internal {
+
 struct ClearHistory {};
 struct AddLine {
     std::vector<std::string> vec;
@@ -28,3 +31,5 @@ struct SendInput {
 
 
 using UIEvent = boost::variant<ClearHistory,AddLine,ChangePrompt,InsertChar,SendInput>;
+
+}

@@ -1,8 +1,10 @@
 #pragma once
-#include "Drawer.h"
-#include "RawFB.h"
+#include "Internal/Drawer.h"
+#include "Internal/RawFB.h"
 #include <memory>
 #include <cstdint>
+
+namespace Internal {
 
 class DoubleBuffering : public Drawer {
 private:
@@ -24,3 +26,5 @@ public:
     void refreshScreen();
     void clear();
 };
+
+}

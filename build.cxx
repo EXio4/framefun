@@ -310,15 +310,16 @@ int main(int argc, char** argv) {
     
     std::vector<std::string> sources = {
         "main.cxx",
-        "src/Color.cxx",
-        "src/DoubleBuffering.cxx",
-        "src/FontManager.cxx",
-        "src/Pos.cxx",
-        "src/RawFB.cxx",
-        "src/Toolkit.cxx",
-        "src/Exceptions.cxx",
-        "src/TextScreen.cxx",
-        "src/UIEvents.cxx"
+        "src/Internal/Color.cxx",
+        "src/Internal/DoubleBuffering.cxx",
+        "src/Internal/FontManager.cxx",
+        "src/Internal/Pos.cxx",
+        "src/Internal/RawFB.cxx",
+        "src/Internal/Toolkit.cxx",
+        "src/Internal/Exceptions.cxx",
+        "src/Internal/TextScreen.cxx",
+        "src/Internal/UIEvents.cxx",
+        "src/Apps/demo1.cxx",
     };
     
     man.add(std::shared_ptr<Task>(new TaskFonts()));

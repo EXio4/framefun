@@ -7,9 +7,12 @@
 #include <fcntl.h>
 #include <stropts.h>
 #include <sys/mman.h>
-#include "RawFB.h"
-#include "Exceptions.h"
+#include "Internal/RawFB.h"
+#include "Internal/Exceptions.h"
 #include <cstring>
+
+
+namespace Internal {
 
 RawFB::RawFB(const std::string& fb_file) {
     struct fb_fix_screeninfo finfo;
@@ -66,4 +69,6 @@ void RawFB::putPixel(Pos pos, Color newColor, double mix)  {
 Color RawFB::getPixel(Pos pos) {
     if (pos.x < 0 || pos.y < 0 || pos.x >= ww || pos.y >= wh) return Color(0,0,0);
     return Color(*((uint32_t*)(fbp+(pos.x*bpp+pos.y*lineLen))));
+}
+
 }

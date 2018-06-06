@@ -1,6 +1,8 @@
-#include "Toolkit.h"
+#include "Internal/Toolkit.h"
 #include <math.h>
 #include <algorithm>
+
+namespace Internal {
 
 Toolkit::Toolkit(Drawer& backend) : backend(backend) {};
 
@@ -46,3 +48,5 @@ void Toolkit::line(Pos p0, Pos p1, Color col) {
         }
     }
 };
+
+}

@@ -1,6 +1,9 @@
 #pragma once
-#include "Color.h"
-#include "Pos.h"
+#include "Internal/Color.h"
+#include "Internal/Pos.h"
+
+
+namespace Internal {
 
 class Drawer {
 public:
@@ -9,3 +12,5 @@ public:
     virtual int screenWidth() = 0;
     virtual int screenHeight() = 0;
 };
+
+}

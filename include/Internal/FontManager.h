@@ -1,11 +1,13 @@
 #pragma once
 
-#include "Drawer.h"
+#include "Internal/Drawer.h"
 #include <string>
 #include <vector>
 
 #define FONT_HEIGHT 16
 #define FONT_WIDTH 8
+
+namespace Internal {
 
 class FontManager {
 private:
@@ -17,3 +19,5 @@ public:
     void write(Pos pos, char c, int scale = 1, Color col = Color(255,255,255), double blend = 1);
     void write(Pos pos, const std::string& string, int scale = 1, int sep = 4, Color col = Color(255,255,255), double blend = 1);
 };
+
+}

@@ -1,6 +1,7 @@
-#include "FontManager.h"
+#include "Internal/FontManager.h"
 
 
+namespace Internal {
 
 FontManager::FontManager(Drawer& backend) : backend(backend) {
     #include "font.h"
@@ -39,4 +40,6 @@ void FontManager::write(Pos pos, const std::string& string, int scale, int sep, 
     for (int i = 0; i < string.size(); i++) {
         write(Pos(pos.x + i * (16 * scale + sep), pos.y), string[i], scale, col, blend);
     }
+}
+
 }

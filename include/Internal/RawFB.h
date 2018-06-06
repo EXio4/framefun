@@ -1,7 +1,9 @@
 #pragma once
-#include "Drawer.h"
+#include "Internal/Drawer.h"
 #include <string>
 
+
+namespace Internal {
 
 class RawFB : public Drawer {
 private:
@@ -27,3 +29,5 @@ public:
     uint32_t getLineLen();
     uint32_t getBufferSize();
 };
+
+}

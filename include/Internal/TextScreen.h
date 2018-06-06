@@ -1,9 +1,11 @@
 #pragma once
 
-#include "FontManager.h"
+#include "Internal/FontManager.h"
 
 #include <string>
 #include <deque>
+
+namespace Internal {
 
 class TextScreen {
     std::deque<std::string> buffers;
@@ -23,3 +25,5 @@ public:
     void render();
     void clear();
 };
+
+}

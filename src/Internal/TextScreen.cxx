@@ -1,5 +1,7 @@
-#include "TextScreen.h"
-#include "Toolkit.h"
+#include "Internal/TextScreen.h"
+#include "Internal/Toolkit.h"
+
+namespace Internal {
 
 TextScreen::TextScreen(Drawer& backend, uint32_t blimit) : backend(backend), fm(backend) {
     buffer_limit = blimit;
@@ -83,4 +85,6 @@ std::string TextScreen::getInput(bool clear) {
     } else {
         return input_line;
     }
+}
+
 }

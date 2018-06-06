@@ -1,5 +1,7 @@
-#include "DoubleBuffering.h"
+#include "Internal/DoubleBuffering.h"
 #include <cstring>
+
+namespace Internal {
 
 DoubleBuffering::DoubleBuffering(std::shared_ptr<RawFB> backend) : backend(backend) {
     ww = backend->screenWidth();
@@ -30,4 +32,6 @@ void DoubleBuffering::putPixel(Pos pos, Color newColor, double mix)  {
 Color DoubleBuffering::getPixel(Pos pos) {
     if (pos.x < 0 || pos.y < 0 || pos.x >= ww || pos.y >= wh) return Color(0,0,0);
     return Color(*((uint32_t*)(local_buffer.get()+(pos.x*bpp+pos.y*lineLen))));
+}
+
 }

@@ -1,4 +1,6 @@
-#include "Color.h"
+#include "Internal/Color.h"
+
+namespace Internal {
 
 Color::Color(int r, int g, int b) : r(r), g(g), b(b) {};
 Color::Color(uint32_t c) {
@@ -15,4 +17,6 @@ Color Color::blend(Color other, double mix) {
     return Color(r * (1-mix) + other.r * mix,
                  g * (1-mix) + other.g * mix,
                  b * (1-mix) + other.b * mix);
+}
+
 }

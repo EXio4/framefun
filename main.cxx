@@ -1,21 +1,22 @@
 #include <iostream>
 #include <atomic>
 #include "conc.h"
-#include <UIEvents.h>
+#include <Internal/UIEvents.h>
 
 #include <stdio.h>
 #include <termios.h>
 #include <unistd.h>
-#include "Color.h"
-#include "Drawer.h"
-#include "RawFB.h"
-#include "DoubleBuffering.h"
-#include "FontManager.h"
-#include "Toolkit.h"
-#include "TextScreen.h"
+#include "Internal/Color.h"
+#include "Internal/Drawer.h"
+#include "Internal/RawFB.h"
+#include "Internal/DoubleBuffering.h"
+#include "Internal/FontManager.h"
+#include "Internal/Toolkit.h"
+#include "Internal/TextScreen.h"
 
 #include "libs/inline_variant.hpp"
 
+using namespace Internal;
 
 void render_thread(Conc::Chan<UIEvent> &evs,Conc::Chan<std::string> &input, std::atomic<bool> &stop) {
 
